@@ -34,7 +34,7 @@ int main()
   std::cin >> base >> power;
   
   int res = raisePower(base, power);
-  if (res != 0) {
+  if (base == 0 || res != 0) {
     std::cout << res << '\n';
   } else {
     std::cerr << "Overflow\n";
