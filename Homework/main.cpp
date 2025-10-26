@@ -1,26 +1,28 @@
 #include <iostream>
 #include <limits>
 
-bool isOverflowMultiply(int a, int b)
+bool isOverflowMultiply(int mltp1, int mltp2)
 {
   int MAX = std::numeric_limits<int>::max();
   int MIN = std::numeric_limits<int>::min();
-  if (a > 0 && b > 0 && a > MAX/b) return true;
-  else if (a < 0 && b < 0 && a < MAX/b) return true;
-  else if (a > 0 && b < 0 && b < MIN/a) return true;
-  else if (a < 0 && b > 0 && a < MIN/b) return true;
-  return false;
+  
+  bool isOverflow = mltp1 > 0 && mltp2 > 0 && mltp1 > MAX / mltp2;
+  isOverflow = isOverflow || (mltp1 < 0 && mltp2 < 0 && mltp1 < MAX / mltp2);
+  isOverflow = isOverflow || (mltp1 > 0 && mltp2 < 0 && mltp2 < MIN / mltp1);
+  isOverflow = isOverflow || (mltp1 < 0 && mltp2 > 0 && mltp1 < MIN / mltp2);
+
+  return isOverflow;
 }
 
-int raisePower(int a, int b)
+int raisePower(int base, int power)
 {
   int res = 1;
-  while (b > 0) {
-    if (isOverflowMultiply(res, a)){
+  while (power > 0) {
+    if (isOverflowMultiply(res, base)) {
       throw std::logic_error("Overflow");
     }
-    res *= a;
-    b--;
+    res *= base;
+    power--;
   }
   return res;
 }
@@ -28,11 +30,12 @@ int raisePower(int a, int b)
 
 int main()
 {
-  int a = 0, b = 0;
-  std::cin >> a >> b;
-  
+  int base = 0, power = 0;
+  std::cin >> base >> power;
+
   try {
-    std::cout << raisePower(a, b) << '\n';
+    int res = raisePower(base, power);
+    std::cout << res << '\n';
   } catch (const std::logic_error &e) {
     std::cerr << e.what() << '\n';
     return 1;
