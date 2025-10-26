@@ -17,11 +17,10 @@ int raisePower(int a, int b) {
         if (isOverflowMultiply(res, a)){
             throw std::logic_error("Overflow");
         }
-    
-        
+        res *= a;
+        b--;
     }
-    
-    
+    return res;
 }
 
 
@@ -29,7 +28,10 @@ int main() {
     int a = 0, b = 0;
     std::cin >> a >> b;
     
-    
-    
-    
+    try {
+        std::cout << raisePower(a, b) << '\n';
+    } catch (const std::logic_error &e) {
+        std::cerr << e.what() << '\n';
+        return 1;
+    }
 }
