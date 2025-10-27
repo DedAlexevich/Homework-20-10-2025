@@ -1,22 +1,15 @@
 #include <iostream>
 #include <limits>
 
-bool isOverflowMultiply(int mltp1, int mltp2)
+bool isOverflowMultiply(size_t mltp1, size_t mltp2)
 {
-  int MAX = std::numeric_limits<int>::max();
-  int MIN = std::numeric_limits<int>::min();
-  
-  bool isOverflow = mltp1 > 0 && mltp2 > 0 && mltp1 > MAX / mltp2;
-  isOverflow = isOverflow || (mltp1 < 0 && mltp2 < 0 && mltp1 < MAX / mltp2);
-  isOverflow = isOverflow || (mltp1 > 0 && mltp2 < 0 && mltp2 < MIN / mltp1);
-  isOverflow = isOverflow || (mltp1 < 0 && mltp2 > 0 && mltp1 < MIN / mltp2);
-
-  return isOverflow;
+  size_t MAX = std::numeric_limits<size_t>::max();
+  return mltp1 != 0 && mltp2 != 0 && mltp1 > MAX / mltp2;
 }
 
-int raisePower(int base, int power)
+size_t raisePower(size_t base, size_t power)
 {
-  int res = 1;
+  size_t res = 1;
   while (power > 0) {
     if (isOverflowMultiply(res, base)) {
       throw std::logic_error("Overflow");
@@ -30,11 +23,11 @@ int raisePower(int base, int power)
 
 int main()
 {
-  int base = 0, power = 0;
+  size_t base = 0, power = 0;
   std::cin >> base >> power;
 
   try {
-    int res = raisePower(base, power);
+    size_t res = raisePower(base, power);
     std::cout << res << '\n';
   } catch (const std::logic_error &e) {
     std::cerr << e.what() << '\n';
